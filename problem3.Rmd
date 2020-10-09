@@ -44,7 +44,6 @@ library(popbio)
 
 eig <- eigen.analysis(vipmat, zero = FALSE)
 
-
 ```
 
 From the eigen analysis, I know the dominant eigenvalue is 0.88. The population is therefore decreasing. In order for the population to remain stable, 30% of the population needs to be in age class 1 and 30% of the population needs to be in age class 5. Since these two age classes need the majority of the population for the overall population to remain stable, management for this species should prioritze the protection of these groups. Of these two groups, however, the 5th and oldest age class has the highest reproductive value (7.01). The first age group has a reproductive value of 1. Based on this knowledge, the most effort should be placed on the conservation of the largest adults in this population.
