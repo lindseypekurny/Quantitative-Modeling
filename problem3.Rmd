@@ -5,13 +5,13 @@ date: "10/9/2020"
 output: html_document
 ---
 
-The Asp Viper, *Vipera aspis*, is a a threatened European snake.
+The Asp Viper, *Vipera aspis*, is a a threatened European snake. The data used in this analysis was gathered from 415 individuals amongst 6 populations of Asp Viper in the Jura Mountains of northern Switzerland. In general, snakes are very cryptic and can be difficult to study. Snakes are unfairly villainized in most cultures, however, they play critical roles in ecosystems, and thus deserve our protection. Using the data below, I want to determine population status - is this population growing or decreasing? Regardless of increasing or decreasing population sizes, I want to understand which age class most affects population growth. Based on these observations, I will create management recommendations.
 
-Snakes play critical roles in the ecosystem, and thus deserve our protection. Using the data below, I want to determine population status - is this population growing or decreasing? I also want to better understand the age distribution of these snakes and to pinpoint mortality rates between the different age classes. Based on these observations, I will create management recommendations.
+Data:
 
 ```{r}
 
-### Playing with the data
+# Playing with the data
 
 load("~/Quan/COMADRE_v.4.20.9.0.RData")
 
@@ -19,34 +19,37 @@ load("~/Quan/COMADRE_v.4.20.9.0.RData")
 Vipera <- grep(pattern = 'Vipera',x=comadre$metadata$Genus)
 head(Vipera)
 
-## Isolate matrix for Asp Viper
+# Isolate matrix for Asp Viper
 
 vipmat <-  comadre$mat[2231][[1]]
 vipmat <- vipmat$matA          ### Using this matrix
 
 
-## Information about the study
+# Information about the study
 
-vipduration <- comadre$metadata$StudyDuration[2231] ## study took 17 years
-vippaper <- comadre$metadata$Authors[2231]
-vipyearpub <- comadre$metadata$YearPublication[2231]
+comadre$metadata$StudyDuration[2231] ## study took 17 years
+comadre$metadata$Authors[2231]
+comadre$metadata$YearPublication[2231]
 
 
 
 ```
+The matrix provided in this data set has broken the asp vipers into 5age classes determined by size. Age is dependent upon size, and so juveniles were classified as individuals less than 37cm in length. Sub-adults were broken into 3 groups, first years (30-37cm), second years (37-44cm), and third years (44-50cm). Adults were any snakes larger than 50cm.
 
 
-Analysis of matrix
+Analysis of matrix:
 
 ``` {r}
 
 library(popbio)
 
-eig <- eigen.analysis(vipmat, zero = FALSE)
+eigen.analysis(vipmat, zero = FALSE)
 
 ```
 
-From the eigen analysis, I know the dominant eigenvalue is 0.88. The population is therefore decreasing by 12% each year. In order for the population to remain stable, 30% of the population needs to be in age class 1 and 30% of the population needs to be in age class 5. Since these two age classes need the majority of the population for the overall population to remain stable, management for this species should prioritize the protection of these groups. Of these two groups, however, the 5th and oldest age class has the highest reproductive value (7.01). The first age group has a reproductive value of 1. Based on this knowledge, the most effort should be placed on the conservation of the largest adults in this population.
+From the eigen analysis, I know the dominant eigenvalue is 0.88. The population is therefore decreasing by 12% each year. In order for the population to remain stable, 30% of the population needs to be juveniles and 30% of the population needs to be adults. Since these two age classes need the majority of the population for the overall population to remain stable, management for this species should prioritize the protection of these groups. Of these two groups, however, adults have the highest reproductive value (7.01). Juveniles have a reproductive value of 1. Based on this knowledge, the most conservation effort should be placed on the adults in this population.
 
-Age class one (0.66) has the highest level of sensivity, followed by age class 5 (0.62) - they are both very similar. If a small change in the number of individuals within this group occurs, the overall population will be effected. When looking at the elasticity for each age group, however, age class five is the most eleastic, indicating if we increase the population by just 1%, the fecundity rate will go up by 0.53%. The data produced from this matrix strongly indicates the most conservation effort should be concentrated on the oldest, largest age class.
+Juveniles (0.66) has the highest level of sensitivity, followed by adults (0.62) - they are both very similar. If a small change in the number of individuals within this group occurs, the overall population will be effected. Instead of making a decision based on sensitivty alone, I used the elasticity for this data. Elasticity is proportional sensivity, whereas sensitivity is absolute change. Therefore, using elasticity gives us an understanding of population dynamics in proportions rather than absolute values. When looking at the elasticity for each age group the adult population is the most elastic, indicating if the adult population increased by just 1%, the population growth rate will go up by 0.53%. 
+
+Using this knowledge, I would recommend conservation efforts prioritize the adult age group. More data should be gathered on preferred adult habitat type, and this habitat should be preserved. The creation of additional habitat would also benefit these snakes. Unfortunately, snakes are often persecuted by humans. Education iniatives could help people understand the importance of snakes in our ecosystems and prevent further persecution.
 
