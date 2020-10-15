@@ -1,0 +1,52 @@
+---
+title: "Problem 3 - Asp Viper Management"
+author: "Lindsey Pekurny"
+date: "10/9/2020"
+output: html_document
+---
+
+The Asp Viper, *Vipera aspis*, is a a threatened European snake.
+
+Snakes play critical roles in the ecosystem, and thus deserve our protection. Using the data below, I want to determine population status - is this population growing or decreasing? I also want to better understand the age distribution of these snakes and to pinpoint mortality rates between the different age classes. Based on these observations, I will create management recommendations.
+
+```{r}
+
+### Playing with the data
+
+load("~/Quan/COMADRE_v.4.20.9.0.RData")
+
+# Asp Viper
+Vipera <- grep(pattern = 'Vipera',x=comadre$metadata$Genus)
+head(Vipera)
+
+## Isolate matrix for Asp Viper
+
+vipmat <-  comadre$mat[2231][[1]]
+vipmat <- vipmat$matA          ### Using this matrix
+
+
+## Information about the study
+
+vipduration <- comadre$metadata$StudyDuration[2231] ## study took 17 years
+vippaper <- comadre$metadata$Authors[2231]
+vipyearpub <- comadre$metadata$YearPublication[2231]
+
+
+
+```
+
+
+Analysis of matrix
+
+``` {r}
+
+library(popbio)
+
+eig <- eigen.analysis(vipmat, zero = FALSE)
+
+
+```
+
+From the eigen analysis, I know the dominant eigenvalue is 0.88. The population is therefore decreasing. In order for the population to remain stable, 30% of the population needs to be in age class 1 and 30% of the population needs to be in age class 5. Since these two age classes need the majority of the population for the overall population to remain stable, management for this species should prioritze the protection of these groups. Of these two groups, however, the 5th and oldest age class has the highest reproductive value (7.01). The first age group has a reproductive value of 1. Based on this knowledge, the most effort should be placed on the conservation of the largest adults in this population.
+
+Age class one (0.66) has the highest level of sensivity, followed by age class 5 (0.62) - they are both very similar. If a small change in the number of individuals within this group occurs, the overall population will be effected.
